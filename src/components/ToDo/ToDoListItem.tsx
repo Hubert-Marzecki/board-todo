@@ -1,5 +1,5 @@
-import React, { JSXElementConstructor } from "react";
-import { Todo, ToggleComplete, RemoveTodo } from "../types";
+import React from "react";
+import { Todo, ToggleComplete, RemoveTodo } from "../../types";
 import { FaBeer } from "react-icons/fa";
 import { FaPhone } from "react-icons/fa";
 import { FaPoop } from "react-icons/fa";
@@ -19,7 +19,7 @@ var datetime =
   "/" +
   currentdate.getFullYear();
 
-type OptionType = {
+interface OptionType {
   value: string;
   label: string;
   icon: any;
@@ -30,18 +30,22 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
   toggleComplete,
   removeTodo,
 }) => {
+
   const option: OptionType[] = [
-    { value: "do", label: "do2", icon: <FaBeer /> },
-    { value: "call", label: "call2dupa", icon: <FaPhone /> },
-    { value: "fix", label: "fix2", icon: <FaPhone /> },
+    { value: "do", label: "do", icon: <FaBeer /> },
+    { value: "call", label: "call", icon: <FaPhone /> },
+    { value: "fix", label: "fix", icon: <FaPoop /> },
   ];
 
   const options = (option: OptionType[]): JSX.Element[] => {
+
     return option.map((item: OptionType) => {
       return (
-        <option value={item.value} label={item.label}>
+        <option
+            key={item.label}
+            label={item.label}>
           {/* {item.icon} */}
-          {item.value} ;
+
         </option>
       );
     });
@@ -61,11 +65,12 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
             className="form-checkbox "
             onChange={() => toggleComplete(todo)}
             checked={todo.complete}
+            key={todo.id}
           />
           <span className="ml-1 "> {todo.text} </span>
         </div>
 
-        <p className="font-hairline text-sm">Stworzony: {datetime}</p>
+        <p className="font-hairline text-sm"> Created: {datetime} </p>
 
         <select className=" mr-auto w-25 text-sm bg-white border border-gray-400 hover:border-gray-500 px-4 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
           {options(option)}

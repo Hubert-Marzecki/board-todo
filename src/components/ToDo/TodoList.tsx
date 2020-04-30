@@ -1,5 +1,5 @@
-import React from "react";
-import {RemoveTodo, Todo, ToggleComplete} from "../types";
+import React, {useState} from "react";
+import {RemoveTodo, Todo, ToggleComplete} from "../../types";
 import { TodoListItem } from "./ToDoListItem";
 
 interface TodoListProps {
@@ -13,12 +13,13 @@ export const TodoList: React.FC<TodoListProps> = ({todo, toggleComplete, removeT
         <div>
             {todo.map(todo => (
                 <TodoListItem
-                    key={todo.text}
+                    key={todo.id}
                     todo={todo}
                     toggleComplete={toggleComplete}
                     removeTodo={removeTodo}
                 />
             ))}
+
         </div>
     );
 };

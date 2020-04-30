@@ -1,15 +1,15 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { AddTodo } from "../types";
+import {AddTodo, RemoveTodo, ToggleComplete} from "../../types";
 import userEvent from "@testing-library/user-event";
 
 interface AddTodoFormProps {
     addTodo: AddTodo;
-    taskNum: number;
+    toggleComplete: ToggleComplete;
+    removeTodo: RemoveTodo;
 }
 
-export const AddTodoForm: React.FC<AddTodoFormProps> = ({ addTodo}) => {
+export const AddTodoForm: React.FC<AddTodoFormProps> = ({ addTodo, removeTodo, toggleComplete}) => {
     const [newTodo, setNewTodo] = useState<string>("");
-
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTodo(e.target.value);
@@ -19,7 +19,6 @@ export const AddTodoForm: React.FC<AddTodoFormProps> = ({ addTodo}) => {
         e.preventDefault();
         addTodo(newTodo);
         setNewTodo("");
-
     };
 
     return (
@@ -35,11 +34,10 @@ export const AddTodoForm: React.FC<AddTodoFormProps> = ({ addTodo}) => {
             <button
                 type="submit"
                 onClick={handleSubmit}
-                className=" float-right bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white mt-1 px-4 border border-blue-500 hover:border-transparent rounded"
+                className=" mt-1 float-right bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white mt-1 px-4 border border-blue-500 hover:border-transparent rounded"
             >
                 Add Todo
             </button>
-
             </div>
         </form>
     );

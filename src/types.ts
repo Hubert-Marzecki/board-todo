@@ -1,7 +1,7 @@
 export type Todo = {
-    id: string;
-    text: string;
-    complete: boolean;
+  id: string;
+  text: string;
+  complete: boolean;
 };
 
 export type ToggleComplete = (selectedTodo: Todo) => void;
@@ -9,11 +9,10 @@ export type ToggleComplete = (selectedTodo: Todo) => void;
 export type AddTodo = (newTodo: string) => void;
 export type RemoveTodo = (id: string) => void;
 
-
-
-
-
-
+export type User = {
+  token: string;
+  username: string;
+};
 
 //
 // interface User {
