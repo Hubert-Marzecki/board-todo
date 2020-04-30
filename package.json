@@ -45,5 +45,6 @@
   },
   "devDependencies": {
     "@types/shortid": "0.0.29"
-  }
+  },
+  "proxy": "https://aqueous-coast-23804.herokuapp.com"
 }

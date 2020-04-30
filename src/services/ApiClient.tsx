@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
-export const BACKEND_URL = "https://aqueous-coast-23804.herokuapp.com";
+// export const BACKEND_URL = "https://aqueous-coast-23804.herokuapp.com";
 
 export type ResultSuccess<T> = { type: "SUCCESS"; value: T  };
 export type ResultFailure = { type: "FAILURE"; cause: string };
@@ -12,7 +12,7 @@ export function registerUser(userRequest: {
   password: string;
 }): Promise<Result<undefined>> {
   return axios
-    .post<void>(BACKEND_URL + "/api/auth/register", userRequest)
+    .post<void>("/api/auth/register", userRequest)
     .then<Result<undefined>>((response) => {
       if (response.status === 200) {
         return { type: "SUCCESS", value: undefined};
@@ -25,8 +25,8 @@ export function registerUser(userRequest: {
 // jezeli ta operacja sie udala. to bedzie zawierac jakas wartosc
 // jezeli nie -> to result bedzie FAILURE
 export function postApiRequest<B, R>(body: B, url: string) : Promise<Result<R>> {
-  return axios.post<R>(BACKEND_URL + url , body).then<Result<R>>((response: AxiosResponse<R>) => {
-    if (response.status === 201) {
+  return axios.post<R>(url , body).then<Result<R>>((response: AxiosResponse<R>) => {
+    if (response.status === 200) {
       return {type: "SUCCESS", value: response.data }
     }
     console.error(response);

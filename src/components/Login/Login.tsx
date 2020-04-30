@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { User } from "../../types";
 import { Page } from "../../App";
-import {BACKEND_URL, postApiRequest, registerUser, Result} from "../../services/ApiClient";
+import { postApiRequest, Result } from "../../services/ApiClient";
+
+
+
 
 interface State {
-
   username: string;
   password: string;
 }
@@ -25,15 +27,21 @@ export const Login = (props: { changePage: (page: Page) => void }) => {
 
 
   function login() {
-postApiRequest(state, BACKEND_URL + "/api/auth/login").then((result : Result<unknown>) => {
-  switch (result.type) {
-    case "SUCCESS":
-        // props.changePage({type: "BOARDS", user:User})
+    // wziac info 
+    // wysuac je
+    // jezeli ok to boards
+    // opcjonalnie ? jezeli nie ok to wyswietlic cus ?
+    postApiRequest(state, "/api/auth/login" ).then((result: Result<unknown >) => {
+      switch (result.type) {
+        case "SUCCESS":
+          props.changePage({ type: "LOGIN" });
+          break;
+        case "FAILURE":
+          break;
+          // ALLERT CUSTOM - https://www.npmjs.com/package/react-notifications-component?activeTab=readme&fbclid=IwAR1UQffEbdFz0dEpP56zBlYtfQnuwvf_hLMKtCfyn1y4aPP9WJvaUyG7kf8
+      }
+    });
 
-  case "FAILURE":
-    alert("dupa")
-  }
-  })
   }
 
 
@@ -76,12 +84,11 @@ postApiRequest(state, BACKEND_URL + "/api/auth/login").then((result : Result<unk
                 />
               </div>
 
-              <input
-                type="submit"
-                value="Log In"
+              <button
+                
                 className="bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8"
                 onClick={() => login()}
-              />
+              > Log in  </button>  
             </form>
             <div className="text-center pt-12 pb-12">
               <p>

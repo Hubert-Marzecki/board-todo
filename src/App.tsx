@@ -13,6 +13,7 @@ import { AddTodo, Todo, ToggleComplete, User } from "./types";
 import { AddTodoForm } from "./components/ToDo/AddToDoForm";
 import { TodoList } from "./components/ToDo/TodoList";
 import { type } from "os";
+import { ToDo } from "./components/ToDo/ToDo";
 
 const initialState: Todo[] = [
   { id: shortid.generate(), text: "taskOne", complete: false },
@@ -28,8 +29,7 @@ export type Page = LoginPage | RegisterPage | BoardsPage;
 
 const App: React.FC = () => {
   const [todos, setTodos] = useState<Array<Todo>>([]);
-  const [todoCount, setTodoCount] = useState<number>(0);
-  const [complteteTasks, setCompleteTasks] = useState<number>(0);
+  
   const [user, setUser] = useState<User | null>(null);
   const [currentPage, setCurrentPage] = useState<Page>({ type: "LOGIN" });
 
@@ -40,37 +40,24 @@ const App: React.FC = () => {
       }
       return todo;
     });
+
     setTodos(updatedTodos);
-    todos.map((todo) => {
-      if (todo.complete === false){
-        const newCompleteAmmout = complteteTasks + 1
-        setCompleteTasks(newCompleteAmmout)
-      } else {
-        const newCompleteAmmout = complteteTasks -1
-        setCompleteTasks(newCompleteAmmout)
-      }
-    })
   };
 
   const addTodo: AddTodo = (newTodo) => {
-    newTodo.trim() !== "" &&
+    if (newTodo.trim() !== "") {
       setTodos([
         ...todos,
         { id: shortid.generate(), text: newTodo, complete: false },
       ]);
-
-    setTodoCount(todos.length + 1)
+    } 
   };
 
   const removeTodo = (id: string) => {
     const newTodoList: Todo[] = todos.filter((todos: Todo) => todos.id !== id);
     setTodos(newTodoList);
-    setTodoCount(todos.length -1 );
-
-
+  
   };
-
-
 
   function mainView(): JSX.Element {
     switch (currentPage.type) {
@@ -114,19 +101,7 @@ const App: React.FC = () => {
           {/*</div>*/}
 
           <div>
-            <>
-              {/* Todo form component */}
-
-              <TodoList
-                todo={todos}
-                toggleComplete={toggleComplete}
-                removeTodo={removeTodo}
-              />
-
-              <AddTodoForm addTodo={addTodo} toggleComplete={toggleComplete} removeTodo={removeTodo} />
-              Tasks: {todoCount}
-              Complete: {complteteTasks}
-            </>
+ 
           </div>
 
           {/*<div className="flex flex-nowrap">*/}
@@ -137,6 +112,12 @@ const App: React.FC = () => {
           {/*    Task*/}
           {/*  </button>*/}
           {/*</div>*/}
+          <ToDo 
+          todos={todos}
+          toggleComplete={toggleComplete}
+          removeTodo={removeTodo}
+          addTodo={addTodo} 
+          />
         </div>
       </div>
     </div>

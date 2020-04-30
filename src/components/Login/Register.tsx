@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { User } from "../../types";
 import { Page } from "../../App";
-import {BACKEND_URL, postApiRequest, registerUser, Result} from "../../services/ApiClient";
+import { postApiRequest, registerUser, Result} from "../../services/ApiClient";
 
 interface State {
   email: string;
@@ -53,14 +53,12 @@ export const Register = (props: { changePage: (page: Page) => void }) => {
   //   });
   // }
   function register() {
-    postApiRequest(state, BACKEND_URL + "/api/auth/register" ).then((result: Result<unknown >) => {
+    postApiRequest<State, undefined>(state,"/api/auth/register" ).then((result: Result<undefined>) => {
       switch (result.type) {
         case "SUCCESS":
           props.changePage({ type: "LOGIN" });
-
           break;
         case "FAILURE":
-
           break;
           // ALLERT CUSTOM - https://www.npmjs.com/package/react-notifications-component?activeTab=readme&fbclid=IwAR1UQffEbdFz0dEpP56zBlYtfQnuwvf_hLMKtCfyn1y4aPP9WJvaUyG7kf8
       }
@@ -120,11 +118,11 @@ export const Register = (props: { changePage: (page: Page) => void }) => {
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline"
                 />
               </div>
-
+{/* {const preventDefault((consumer: (e => )))} */}
               <button
-                type="submit"
+              
                 className="bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8"
-                onClick={(_) => register()}
+                onClick={(e) => {e.preventDefault(); register()}}
               >
                 Register
               </button>

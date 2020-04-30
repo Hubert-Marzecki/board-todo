@@ -55,10 +55,10 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
       className={
         todo.complete
           ? "bg-green-200 flex w-100 mb-5 border px-4 py-4"
-          : "flex  flex-col mb-5 border px-4 py-4 "
+          : "flex flex-col mb-5 border px-4 py-4 "
       }
     >
-      <div className=" ">
+      <div className="width-100">
         <div className={todo.complete ? "line-through " : ""}>
           <input
             type="checkbox"
