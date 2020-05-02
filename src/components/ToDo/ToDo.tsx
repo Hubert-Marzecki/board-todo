@@ -46,13 +46,13 @@ export const ToDo  = (props: ToDoProps) => {
         {/* Todo form component */}
 
         <TodoList
-          todo={todos}
+          todos={todos}
           toggleComplete={toggleComplete}
           removeTodo={removeTodo}
-          
+
         />
 
-        <AddTodoForm addTodo={addTodo} toggleComplete={toggleComplete} removeTodo={removeTodo} />
+        <AddTodoForm addTodo={addTodo}  />
         Tasks: {todos.length}
         Complete: {todos.filter(it => it.complete).length}
       </>

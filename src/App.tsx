@@ -1,6 +1,11 @@
 import React, { useState, useEffect, MouseEvent, FormEvent } from "react";
 import ReactDOM from "react-dom";
-
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import "./styles.css";
 
 import { Login } from "./components/Login/Login";
@@ -29,7 +34,6 @@ export type Page = LoginPage | RegisterPage | BoardsPage;
 
 const App: React.FC = () => {
   const [todos, setTodos] = useState<Array<Todo>>([]);
-  
   const [user, setUser] = useState<User | null>(null);
   const [currentPage, setCurrentPage] = useState<Page>({ type: "LOGIN" });
 
@@ -43,84 +47,61 @@ const App: React.FC = () => {
 
     setTodos(updatedTodos);
   };
-
   const addTodo: AddTodo = (newTodo) => {
     if (newTodo.trim() !== "") {
       setTodos([
         ...todos,
         { id: shortid.generate(), text: newTodo, complete: false },
       ]);
-    } 
+    }
   };
-
   const removeTodo = (id: string) => {
     const newTodoList: Todo[] = todos.filter((todos: Todo) => todos.id !== id);
     setTodos(newTodoList);
-  
+
   };
 
-  function mainView(): JSX.Element {
-    switch (currentPage.type) {
-      case "LOGIN":
-        return <Login changePage={setCurrentPage} />;
-      case "REGISTER":
-        return <Register changePage={setCurrentPage} />;
-      case "BOARDS":
-        return <Board user={currentPage.user} />;
+  // function mainView(): JSX.Element {
+  //   switch (currentPage.type) {
+  //     case "LOGIN":
+  //       return <Login changePage={setCurrentPage} />;
+  //     case "REGISTER":
+  //       return <Register changePage={setCurrentPage} />;
+  //     case "BOARDS":
+  //       return <Board user={currentPage.user} />;
+  //   }
+  // }
+
+  function protectedRoutes(): JSX.Element[]{
+    if(user !== null){
+        return [
+          <Route path="/board" component = {()=><Board user={user}/>}></Route>
+        ]        
     }
+    return []
   }
 
   return (
+    <Router>
     <div>
-      {mainView()}
-    
+      <Route path="/" exact component={()=> <Login setUser={setUser}/>} />
+      <Route path="/register"  component={Register}/>
+      { protectedRoutes() }
+    {/* user == null ? undefinde : <Route path="./" components ={()=> <Board user={user}>} </Route>
+    Pozwala nam dodać logikę do routingu + przekazać do niego parametry!
+    */}
 
-      <div className="bg-white my-12 pb-6 w-full justify-center items-center overflow-hidden md:max-w-sm rounded-lg shadow-sm mx-auto">
-        <div className="relative h-40">
-          <img
-            className="absolute h-full w-full object-cover"
-            src="https://images.unsplash.com/photo-1448932133140-b4045783ed9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80"
-          />
-        </div>
-        <div className="relative shadow mx-auto h-24 w-24 -my-12 border-white rounded-full overflow-hidden border-4">
-          <img
-            className="object-cover w-full h-full"
-            src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=200&q=80"
-          />
-        </div>
-        <div className="mt-16">
-          <h1 className="text-lg text-center font-semibold">
-            Do a mobile first layout
-          </h1>
-          <p className="text-sm text-gray-600 text-center">New Landing Page</p>
-        </div>
-        <div className="mt-6 pt-3 flex flex-wrap mx-6 border-t">
-          {/*<div*/}
-          {/*    className="text-xs mr-2 my-1 uppercase tracking-wider border px-2 text-indigo-600 border-indigo-600 hover:bg-indigo-600 hover:text-indigo-100 cursor-default">*/}
-          {/*  Some Info*/}
-          {/*</div>*/}
 
-          <div>
- 
-          </div>
 
-          {/*<div className="flex flex-nowrap">*/}
-          {/*  <input type="text" className=" border-solid border-4 border-gray-300 rounded  mr-5"/>*/}
-
-          {/*  <button*/}
-          {/*      className=" ml-5 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white  px-4 border border-blue-500 hover:border-transparent rounded">Add*/}
-          {/*    Task*/}
-          {/*  </button>*/}
-          {/*</div>*/}
-          <ToDo 
+      {/* {mainView()} */}  
+          {/* <ToDo
           todos={todos}
           toggleComplete={toggleComplete}
           removeTodo={removeTodo}
-          addTodo={addTodo} 
-          />
-        </div>
-      </div>
+          addTodo={addTodo}
+          /> */}
     </div>
+    </Router>
   );
 };
 

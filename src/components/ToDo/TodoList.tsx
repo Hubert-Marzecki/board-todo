@@ -3,15 +3,15 @@ import {RemoveTodo, Todo, ToggleComplete} from "../../types";
 import { TodoListItem } from "./ToDoListItem";
 
 interface TodoListProps {
-    todo: Array<Todo>;
+    todos: Array<Todo>;
     toggleComplete: ToggleComplete;
     removeTodo: RemoveTodo;
 }
 
-export const TodoList: React.FC<TodoListProps> = ({todo, toggleComplete, removeTodo}) => {
+export const TodoList: React.FC<TodoListProps> = ({todos, toggleComplete, removeTodo}) => {
     return (
         <div>
-            {todo.map(todo => (
+            {todos.map(todo => (
                 <TodoListItem
                     key={todo.id}
                     todo={todo}

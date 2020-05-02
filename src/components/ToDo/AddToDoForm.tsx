@@ -4,17 +4,14 @@ import userEvent from "@testing-library/user-event";
 
 interface AddTodoFormProps {
     addTodo: AddTodo;
-    toggleComplete: ToggleComplete;
-    removeTodo: RemoveTodo;
 }
 
-export const AddTodoForm: React.FC<AddTodoFormProps> = ({ addTodo, removeTodo, toggleComplete}) => {
+export const AddTodoForm: React.FC<AddTodoFormProps> = ({ addTodo}) => {
     const [newTodo, setNewTodo] = useState<string>("");
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTodo(e.target.value);
     };
-
     const handleSubmit = (e: FormEvent<HTMLButtonElement>) => {
         e.preventDefault();
         addTodo(newTodo);

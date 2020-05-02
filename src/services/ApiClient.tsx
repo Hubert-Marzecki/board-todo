@@ -21,6 +21,21 @@ export function registerUser(userRequest: {
     });
 }
 
+// export function registerUserTest(userRequest: {
+//   username: string;
+//   email: string;
+//   password: string;
+// }): Promise<boolean> {
+//   return axios
+//     .post<void>("/api/auth/register", userRequest)
+//     .then<boolean>((response: AxiosResponse<boolean>) => {
+//       if (response.status === 200) {
+//         return true;
+//       }
+//       return { type: "FAILURE", cause: "" };
+//     });
+// }
+
 // promise tego ze kiedys dostaniemy result operacji
 // jezeli ta operacja sie udala. to bedzie zawierac jakas wartosc
 // jezeli nie -> to result bedzie FAILURE

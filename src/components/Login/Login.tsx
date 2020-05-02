@@ -2,21 +2,19 @@ import React, { useState } from "react";
 import { User } from "../../types";
 import { Page } from "../../App";
 import { postApiRequest, Result } from "../../services/ApiClient";
-
-
-
+import {Link, useHistory} from 'react-router-dom'
 
 interface State {
   username: string;
   password: string;
 }
 
-export const Login = (props: { changePage: (page: Page) => void }) => {
+export const Login = (props: { setUser: (user: User)=> void}) => {
   const [state, setState] = useState<State>({
     username: "" ,
     password: ""
  });
-
+const history = useHistory();
 
   function updateField(field: keyof State ): (e: React.ChangeEvent<HTMLInputElement>) => void {
     return (e) => {
@@ -31,10 +29,12 @@ export const Login = (props: { changePage: (page: Page) => void }) => {
     // wysuac je
     // jezeli ok to boards
     // opcjonalnie ? jezeli nie ok to wyswietlic cus ?
-    postApiRequest(state, "/api/auth/login" ).then((result: Result<unknown >) => {
+    postApiRequest<State, User>(state, "/api/auth/login" ).then((result: Result<User>) => {
       switch (result.type) {
         case "SUCCESS":
-          props.changePage({ type: "LOGIN" });
+          props.setUser(result.value);
+          history.push("/board");
+          // props.changePage({ type: "LOGIN" });
           break;
         case "FAILURE":
           break;
@@ -67,7 +67,7 @@ export const Login = (props: { changePage: (page: Page) => void }) => {
                   id="userName"
                   placeholder="your username"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline"
-                  onChange= {()=>updateField("username")}
+                  onChange= {updateField("username")}
                 />
               </div>
 
@@ -80,26 +80,23 @@ export const Login = (props: { changePage: (page: Page) => void }) => {
                   id="password"
                   placeholder="Password"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline"
-                  onChange= {()=>updateField("password")}
+                  onChange= {updateField("password")}
                 />
               </div>
 
               <button
-                
                 className="bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8"
-                onClick={() => login()}
+                onClick={(e) => {e.preventDefault(); login()}}
               > Log in  </button>  
             </form>
             <div className="text-center pt-12 pb-12">
               <p>
                 Don't have an account?{" "}
-                <a
-                  href="/#"
+                <Link to="/register"
                   className="underline font-semibold"
-                  onClick={(_) => props.changePage({ type: "REGISTER" })}
-                >
+                > 
                   Register here.
-                </a>
+                </Link> 
               </p>
             </div>
           </div>

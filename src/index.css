@@ -3,9 +3,7 @@
     transform: translate3d(0, 0, 1px) rotate(360deg);
   }
 }
-.app {
 
-}
 .background {
   position: fixed;
   width: 100vw;

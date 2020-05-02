@@ -36,7 +36,6 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
     { value: "call", label: "call", icon: <FaPhone /> },
     { value: "fix", label: "fix", icon: <FaPoop /> },
   ];
-
   const options = (option: OptionType[]): JSX.Element[] => {
 
     return option.map((item: OptionType) => {
@@ -50,6 +49,7 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
       );
     });
   };
+
   return (
     <div
       className={

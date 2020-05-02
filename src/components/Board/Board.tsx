@@ -28,3 +28,4 @@ export const Board = (props: { user: User }) => {
     </div>
   );
 };
+

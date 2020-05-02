@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { User } from "../../types";
 import { Page } from "../../App";
 import { postApiRequest, registerUser, Result} from "../../services/ApiClient";
+import {Link,  Redirect, useLocation, useHistory} from 'react-router-dom';
+import {
+  withRouter
+} from 'react-router-dom'
 
 interface State {
   email: string;
@@ -9,13 +13,13 @@ interface State {
   username: string;
 }
 
-export const Register = (props: { changePage: (page: Page) => void }) => {
+export const Register = () => {
   const [state, setState] = useState<State>({
     email: "",
     password: "",
     username: "",
   });
-
+  const history = useHistory();
 
 
   function updateField(field: keyof State ): (e: React.ChangeEvent<HTMLInputElement>) => void {
@@ -52,11 +56,28 @@ export const Register = (props: { changePage: (page: Page) => void }) => {
   //     }
   //   });
   // }
+  
   function register() {
+    return postApiRequest<State, undefined>(state,"/api/auth/register" )
+    .then((result: Result<undefined>) => {
+      switch (result.type) {
+        case "SUCCESS":
+          history.push("/")
+          // props.changePage({ type: "LOGIN" });
+            // history.push("/login")
+          break;
+        case "FAILURE":
+          break;
+          // ALLERT CUSTOM - https://www.npmjs.com/package/react-notifications-component?activeTab=readme&fbclid=IwAR1UQffEbdFz0dEpP56zBlYtfQnuwvf_hLMKtCfyn1y4aPP9WJvaUyG7kf8
+      }
+    });
+  }
+  function registerTest() {
     postApiRequest<State, undefined>(state,"/api/auth/register" ).then((result: Result<undefined>) => {
       switch (result.type) {
         case "SUCCESS":
-          props.changePage({ type: "LOGIN" });
+        
+          // props.changePage({ type: "LOGIN" });
           break;
         case "FAILURE":
           break;
@@ -66,6 +87,7 @@ export const Register = (props: { changePage: (page: Page) => void }) => {
   }
 
   return (
+    
     <div className="bg-white font-family-karla h-screen">
       <div className="w-full flex flex-wrap">
         <div className="w-full md:w-1/2 flex flex-col">
@@ -119,10 +141,11 @@ export const Register = (props: { changePage: (page: Page) => void }) => {
                 />
               </div>
 {/* {const preventDefault((consumer: (e => )))} */}
+
               <button
               
                 className="bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8"
-                onClick={(e) => {e.preventDefault(); register()}}
+                onClick={(e) => {e.preventDefault(); return register();}}
               >
                 Register
               </button>
